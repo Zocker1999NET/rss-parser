@@ -21,7 +21,7 @@ class DateTimeOrStr(datetime):
         return f"DateTimeOrStp({super().__repr__()})"
 
 
-def validate_dt_or_str(value: str) -> datetime:
+def validate_dt_or_str(value: str) -> datetime | str:
     # Try to parse standard (RFC 822)
     try:
         return parsedate_to_datetime(value)
