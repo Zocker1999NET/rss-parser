@@ -94,43 +94,6 @@ class TagRaw(GenericModel, Generic[T]):
         return pydantic_encoder(v)
 
 
-_OPERATOR_MAPPING = {
-    # Unary
-    "__pos__": pos,
-    "__neg__": neg,
-    "__abs__": abs,
-    "__invert__": invert,
-    "__round__": round,
-    "__floor__": floor,
-    "__ceil__": ceil,
-    # Conversion
-    "__str__": str,
-    "__int__": int,
-    "__float__": float,
-    "__bool__": bool,
-    "__complex__": complex,
-    "__oct__": oct,
-    "__hex__": hex,
-    "__index__": index,
-    "__trunc__": trunc,
-    # Comparison
-    "__lt__": lt,
-    "__gt__": gt,
-    "__le__": le,
-    "__eq__": eq,
-    "__ne__": ne,
-    "__ge__": ge,
-    # Arithmetic
-    "__add__": add,
-    "__sub__": sub,
-    "__mul__": mul,
-    "__truediv__": truediv,
-    "__floordiv__": floordiv,
-    "__mod__": mod,
-    "__pow__": pow,
-}
-
-
 def _make_proxy_operator(operator):
     def f(self, *args):
         return operator(self.content, *args)
@@ -140,11 +103,37 @@ def _make_proxy_operator(operator):
     return f
 
 
-with warnings.catch_warnings():
-    # Ignoring pydantic's warnings when inserting dunder methods (this is not a field so we don't care)
-    warnings.filterwarnings("ignore", message="fields may not start with an underscore")
-    Tag: Type[TagRaw] = create_model(
-        "Tag",
-        __base__=(TagRaw, Generic[T]),
-        **{method: _make_proxy_operator(operator) for method, operator in _OPERATOR_MAPPING.items()},
-    )
+class Tag(TagRaw[T], GenericModel, Generic[T]):
+    # Unary
+    __pos__ = _make_proxy_operator(pos)
+    __neg__ = _make_proxy_operator(neg)
+    __abs__ = _make_proxy_operator(abs)
+    __invert__ = _make_proxy_operator(invert)
+    __round__ = _make_proxy_operator(round)
+    __floor__ = _make_proxy_operator(floor)
+    __ceil__ = _make_proxy_operator(ceil)
+    # Conversion
+    __str__ = _make_proxy_operator(str)
+    __int__ = _make_proxy_operator(int)
+    __float__ = _make_proxy_operator(float)
+    __bool__ = _make_proxy_operator(bool)
+    __complex__ = _make_proxy_operator(complex)
+    __oct__ = _make_proxy_operator(oct)
+    __hex__ = _make_proxy_operator(hex)
+    __index__ = _make_proxy_operator(index)
+    __trunc__ = _make_proxy_operator(trunc)
+    # Comparison
+    __lt__ = _make_proxy_operator(lt)
+    __gt__ = _make_proxy_operator(gt)
+    __le__ = _make_proxy_operator(le)
+    __eq__ = _make_proxy_operator(eq)
+    __ne__ = _make_proxy_operator(ne)
+    __ge__ = _make_proxy_operator(ge)
+    # Arithmetic
+    __add__ = _make_proxy_operator(add)
+    __sub__ = _make_proxy_operator(sub)
+    __mul__ = _make_proxy_operator(mul)
+    __truediv__ = _make_proxy_operator(truediv)
+    __floordiv__ = _make_proxy_operator(floordiv)
+    __mod__ = _make_proxy_operator(mod)
+    __pow__ = _make_proxy_operator(pow)
