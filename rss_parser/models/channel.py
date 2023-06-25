@@ -13,13 +13,13 @@ from rss_parser.models.types.tag import Tag
 class RequiredChannelElementsMixin(XMLBaseModel):
     """https://www.rssboard.org/rss-specification#requiredChannelElements."""
 
-    title: Tag[str] = None  # GoUpstate.com News Headlines
+    title: Tag[str]  # GoUpstate.com News Headlines
     "The name of the channel. It's how people refer to your service. If you have an HTML website that contains " "the same information as your RSS file, the title of your channel should be the same as the title of your " "website."  # noqa
 
-    link: Tag[str] = None  # http://www.goupstate.com/
+    link: Tag[str]  # http://www.goupstate.com/
     "The URL to the HTML website corresponding to the channel."
 
-    description: Tag[str] = None  # The latest news from GoUpstate.com, a Spartanburg Herald-Journal Web site.
+    description: Tag[str]  # The latest news from GoUpstate.com, a Spartanburg Herald-Journal Web site.
     "Phrase or sentence describing the channel."
 
 
