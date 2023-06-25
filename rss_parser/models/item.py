@@ -4,21 +4,19 @@ from rss_parser.models import XMLBaseModel
 from rss_parser.models.types.tag import Tag
 
 
-class RequiredItemElementsMixin(XMLBaseModel):
-    title: Tag[str] = None  # Venice Film Festival Tries to Quit Sinking
+class OptionalItemElementsMixin(XMLBaseModel):
+    title: Optional[Tag[str]] = None  # Venice Film Festival Tries to Quit Sinking
     "The title of the item."
 
-    link: Tag[str] = None  # http://nytimes.com/2004/12/07FEST.html
+    link: Optional[Tag[str]] = None  # http://nytimes.com/2004/12/07FEST.html
     "The URL of the item."
 
-    description: Tag[
-        str
+    description: Optional[
+        Tag[str]
     ] = None  # <description>Some of the most heated chatter at the Venice Film Festival this week was
     # about the way that the arrival of the stars at the Palazzo del Cinema was being staged.</description>
     "The item synopsis."
 
-
-class OptionalItemElementsMixin(XMLBaseModel):
     author: Optional[Tag[str]] = None
     "Email address of the author of the item."
 
@@ -41,5 +39,5 @@ class OptionalItemElementsMixin(XMLBaseModel):
     "The RSS channel that the item came from."
 
 
-class Item(RequiredItemElementsMixin, OptionalItemElementsMixin, XMLBaseModel):
+class Item(OptionalItemElementsMixin, XMLBaseModel):
     """https://www.rssboard.org/rss-specification#hrelementsOfLtitemgt."""
